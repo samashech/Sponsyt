@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String?   @unique
+  password      String?
+  role          String    @default("BRAND") // "BRAND" or "CREATOR"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  channel       Channel?  
+  campaigns     Campaign[]
+}
+
+model Channel {
+  id              String    @id @default(uuid())
+  youtubeId       String    @unique
+  name            String
+  description     String?
+  subscribers     Int       @default(0)
+  averageViews    Int       @default(0)
+  niche           String?
+  contactEmail    String?
+  thumbnailUrl    String?
+  pricePerVideo   Int?      
+  userId          String?   @unique
+  user            User?     @relation(fields: [userId], references: [id])
+  outreachLogs    OutreachLog[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Campaign {
+  id            String    @id @default(uuid())
+  name          String
+  budget        Int?
+  description   String?
+  brandId       String
+  brand         User      @relation(fields: [brandId], references: [id])
+  outreachLogs  OutreachLog[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model OutreachLog {
+  id          String    @id @default(uuid())
+  campaignId  String
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  channelId   String
+  channel     Channel   @relation(fields: [channelId], references: [id])
+  status      String    @default("SAVED") // "SAVED", "CONTACTED", "NEGOTIATING", "CLOSED", "REJECTED"
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([campaignId, channelId])
+}
