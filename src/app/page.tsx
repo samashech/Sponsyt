@@ -25,13 +25,14 @@ export default async function Home(props: { searchParams: Promise<{ q?: string; 
   });
 
   return (
-    <main className="container mx-auto py-10 px-4">
-      <div className="flex flex-col gap-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight">Sponsyt</h1>
-            <p className="text-muted-foreground mt-2 text-lg">Find the perfect creator for your next brand campaign.</p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/50 dark:from-indigo-950/20 dark:via-background dark:to-purple-950/20">
+      <main className="container mx-auto py-10 px-4">
+        <div className="flex flex-col gap-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 pb-1">Sponsyt</h1>
+              <p className="text-muted-foreground mt-2 text-lg">Find the perfect creator for your next brand campaign.</p>
+            </div>
           <div>
              <Button variant="outline">Sign In</Button>
           </div>
@@ -85,6 +86,7 @@ export default async function Home(props: { searchParams: Promise<{ q?: string; 
           )}
         </div>
       </div>
-    </main>
+      </main>
+    </div>
   );
 }
